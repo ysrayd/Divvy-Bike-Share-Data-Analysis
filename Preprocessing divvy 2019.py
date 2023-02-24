@@ -1,17 +1,13 @@
 # Import Dependencies
 from matplotlib import pyplot as plt
 import scipy.stats as stats
-from scipy.stats import linregress
 import numpy as np
 from sklearn import datasets
 import pandas as pd
-import requests
-import json
-import os
-import gmaps
+
 
 # Import data file
-divvy_df = pd.read_csv('C:/Users/HP/Desktop/DIVVY DATA FULL/Divvy_2019.csv')
+divvy_df = pd.read_csv('path/Divvy_2019.csv')
 divvy_df.shape
 
 # Display sample of dataframe
@@ -28,9 +24,9 @@ divvy_df.columns
 divvy_df['AGE'] = (2019 - divvy_df['BIRTH YEAR'])
 divvy_df.head()
 
-# Create bins for age
+# Create 8 groups for age
 bins = [10, 20, 30, 40, 50, 60, 70, 80, 90]
-# Create the names for the bins
+# Create the names for the groups
 group_names = ["10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80-89"]
 divvy_df["Age Group"] = pd.cut(divvy_df["AGE"], bins, labels=group_names, include_lowest=True)
 divvy_df.head()
@@ -52,10 +48,6 @@ divvy_df['STOP DATE'] = divvy_df['STOP TIME'].dt.date
 divvy_df['STOP TIME'] = divvy_df['STOP TIME'].dt.time
 divvy_df.head()
 
-#Delete columns
-divvy_df.drop('Unnamed: 0.2', axis=1, inplace=True)
-divvy_df.drop('Unnamed: 0', axis=1, inplace=True)
-divvy_df.drop('Unnamed: 0.1', axis=1, inplace=True)
 
 # Organize columns in dataframe
 divvy_df.columns
@@ -63,5 +55,5 @@ divvy_df = divvy_df[["TRIP ID", "BIKE ID", "START DATE", "START TIME", "time dif
 divvy_df.head(10)
 
 #Export CSV dataframe
-path = r'C:\Users\HP\Desktop\DIVVY DATA FULL\Preprocessing divvy 2019.csv'
+path = r'path\Preprocessing divvy 2019.csv'
 divvy_df.to_csv(path)
