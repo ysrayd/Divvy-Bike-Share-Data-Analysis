@@ -1,35 +1,12 @@
-# Import Dependencies
-from matplotlib import pyplot as plt
-import seaborn as sns
-import scipy.stats as stats
-from scipy.stats import linregress
-import numpy as np
-from sklearn import datasets
-import pandas as pd
-import requests
-import json
-import os
-import gmaps
-
 
 # Import data file
-divvy_df = pd.read_csv('C:/Users/HP/Desktop/DIVVY DATA FULL/Preprocessing divvy 2019.csv')
+divvy_df = pd.read_csv('path/Preprocessing divvy 2019.csv')
 divvy_df.shape
 
 divvy_df.columns
 
-#divvy_df.loc[divvy_df['time difference']==-56.36666666666667]
-#cols = [813567,814409,814931,817201,818584,820755,821880,824658]
-#divvy_df.dropna(divvy_df.index[cols], axis=1, inplace=True)
-
 # Number of unique bikes in circulation
 divvy_df['BIKE ID'].nunique()
-
-divvy_df['Age Group'].unique()
-
-divvy_df.iloc[['20-Nov'],['Age Group']]= "10-20"
-divvy_df.loc[divvy_df['Age Group'] == "20-Nov", "Age Group"] = "10-20"
-
 
 
 # Bike IDs with most activity
@@ -57,7 +34,7 @@ Trip_Duration_All_data = plt.scatter(divvy_df['time difference'], divvy_df['BIKE
 plt.title("Trip Duration for Whole Dataset")
 plt.xlabel("Trip Duration (Minutes)")
 plt.ylabel("Bike ID")
-#plt.savefig('Images/Trip_Duration_Scatter_All.png')
+plt.savefig('Pictures/Trip_Duration_Scatter_All.png')
 plt.show()
 
 # c
@@ -71,7 +48,7 @@ plt.scatter(clustered_duration['time difference'], clustered_duration['BIKE ID']
 plt.title("Trip Duration for Trips Less Than or Equal to 100 Minutes")
 plt.xlabel("Trip Duration (Minutes)")
 plt.ylabel("Bike ID")
-#plt.savefig('Images/Trip_Duration_Scatter_Under_100.png')
+plt.savefig('Pictures/Trip_Duration_Scatter_Under_100.png')
 plt.show()
 
 popular_bikes = divvy_df['BIKE ID'].value_counts().head(20)
@@ -86,7 +63,7 @@ plt.title("Number of Rides for The Top 20 Bikes")
 plt.xlabel("Bike ID")
 plt.ylabel("Number of Rides")
 plt.grid(True, alpha=.5)
-#plt.savefig('Images/Rides_per_Top_20_Bikes.png')
+plt.savefig('Pictures/Rides_per_Top_20_Bikes.png')
 
 
 # Find 20 most used bike IDs
@@ -114,53 +91,11 @@ total_trips_reduced.plot(kind='bar', color='deepskyblue', alpha=.5, align='cente
 plt.title('Most Popular Stations')
 plt.xlabel('Stations')
 plt.ylabel('Trips')
-#plt.savefig('Images/Most_Popular_Stations.png')
+plt.savefig('Pictures/Most_Popular_Stations.png')
 plt.show()
 plt.tight_layout()
 
 
-# Create a dataframe shows the most popular ending station for popular starting stations
-divvy_rides = {'from_station': divvy_df['FROM STATION ID'],
-               'to_station': divvy_df['TO STATION ID']
-              }
-
-divvy_rides_df = pd.DataFrame(divvy_rides, columns=['from_station', 'to_station'])
-dup_to_from = divvy_rides_df.pivot_table(index=['from_station', 'to_station'], aggfunc='size')
-
-# Reconfigure dataframe to display data side by side
-dup_to_from.columns = dup_to_from.droplevel(0)
-dup_to_from.columns.name = None
-dup_to_from_II = dup_to_from.reset_index()
-
-# Rename dataframe columns
-to_from_III = dup_to_from_II.rename(columns={'from_station': 'from_station_id', 'to_station':'to_station_id', 0:'rides_taken'})
-to_from_III
-
-# Remove rows where start and end station were identical
-to_from_removed_dups = to_from_III[to_from_III['from_station_id'] != to_from_III['to_station_id']]
-
-# Sort dataframe of start/end stations, sort, and identify 25 most popular routes
-most_pop_rides = to_from_removed_dups.loc[to_from_removed_dups.groupby('from_station_id')['rides_taken'].idxmax()]
-most_popular_routes = most_pop_rides.sort_values(ascending=False, by='rides_taken').reset_index(drop=True)
-most_popular_reduced = most_popular_routes[0:25]
-most_popular_reduced
-
-# Convert FROM STATION ID and TO STATION ID to string
-divvy_df['FROM STATION ID'] = divvy_df['FROM STATION ID'].astype(str)
-divvy_df['FROM STATION ID'].dtypes
-divvy_df['TO STATION ID'] = divvy_df['TO STATION ID'].astype(str)
-divvy_df['TO STATION ID'].dtypes
-
-# Create a bar chart of the 25 most popular routes
-plt.figure(figsize=(10,8))
-plt.bar(most_popular_reduced['from_station_id'], most_popular_reduced['rides_taken'], color='mediumslateblue', alpha=.5, align='center')
-plt.xticks(most_popular_reduced['from_station_id'], rotation='vertical')
-plt.title('25 Most Popular Divvy Routes (Origin)')
-plt.xlabel('Divvy Locations')
-plt.ylabel('Number of Rides')
-#plt.savefig('Images/Most Popular Routes.png')
-plt.show()
-plt.tight_layout()
 
 divvy_df.columns = divvy_df.columns.str.replace('usertype', 'USER TYPE')
 divvy_df.columns
@@ -217,14 +152,14 @@ gender_demographics_df = pd.DataFrame({'Total Count':gender_type_number,
                                        'Percentage':percent_gender})
 gender_demographics_df.sort_values('Total Count', ascending = False)
 
-# Total Divvy Riders based on Gender- PIE CHART
+# Total Divvy Riders based on Gender
 gender_data = divvy_df['GENDER'].value_counts()
 gender_labels = ['Male','Female']
 colours = ['skyblue', 'lightpink']
 plt.figure(figsize=(10,8))
 plt.pie(gender_data, labels= gender_labels, colors=colours, autopct="%1.1f%%", startangle=145)
 plt.title("Total Divvy Riders based on Gender")
-#plt.savefig('Images/Gender_Overall.png')
+plt.savefig('Pictures/Gender_Overall.png')
 
 #Use by Age Group
 
@@ -244,11 +179,11 @@ age_demographics_df = pd.DataFrame({'Total Count':age_type_number,
                                        'Percentage of Age':percent_age})
 age_demographics_df.sort_values('Age Group', ascending = True)
 
-# Percentage Divvy Riders based on Age- Bar Chart
+# Percentage Divvy Riders based on Age
 rainbow_colors = ["dodgerblue", "deepskyblue", "cornflowerblue", "royalblue", "steelblue", "mediumblue", "skyblue", "navy"]
 plt.figure(figsize=(10,8))
 percent_chart = percent_age.plot(kind = 'bar', color = rainbow_colors, rot = 20)
-#plt.savefig('Images/Age_Overall.png')
+plt.savefig('Pictures/Age_Overall.png')
 plt.figure(figsize=(10,8))
 percent_chart.set_ylabel("Percent")
 percent_chart.set_xlabel("Age Group")
@@ -257,7 +192,7 @@ percent_chart.set_title("Percentage Divvy Riders Based on Age")
 # Age seperated by usertype
 usertype_age_df['USER TYPE'].value_counts()
 
-# Total Divvy Riders based on Age, Separated by Usertype- Stacked Histogram
+# Total Divvy Riders based on Age, Separated by Usertype
 subscriber_age_totals = [12270,342425,287671,123787,87457,29511,1961,40]
 customer_age_totals = [3688,34844,14128,5095,2828,512,33,7]
 plotdata = pd.DataFrame({
@@ -270,8 +205,7 @@ plotdata[["Subscriber", "Customer"]].plot(kind="bar", color=['deepskyblue','orch
 plt.title("Total Divvy Riders based on Age, Separated by Usertype")
 plt.xlabel("Age Groups")
 plt.ylabel("Amount of Riders")
-#plt.savefig('Images/Age_Customers_and_Subscribers.png')
-
+plt.savefig('Pictures/Age_Customers_and_Subscribers.png')
 
 
 # Find amount of trips based on day of week
@@ -387,4 +321,4 @@ gender_chart = split_gender_data.plot(kind = 'bar', color = blue_colors, rot = 2
 gender_chart.set_ylabel("Amount of Riders")
 gender_chart.set_xlabel("Gender, Usertype")
 gender_chart.set_title("Total Divvy Riders based on Gender and Usertype")
-#plt.savefig('Images/Gender_Customers_Only.png')
+plt.savefig('Pictures/Gender_Customers_Only.png')
