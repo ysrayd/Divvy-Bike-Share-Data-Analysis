@@ -20,3 +20,5 @@ After cleaning up the data and adding some parameters that were necessary for th
 - The station that had the highest trips generated was station #192 (Canal St & Adams St).
 - The dominant route was one route that starts from station #76 (Lake Shore Dr & Monroe St).
 - The most popular station by far is Streeter Dr. and Grand Ave., which is located on Navy Pier. It is a popular destination for both tourists and locals.
+
+#### Download Data Here : https://data.cityofchicago.org/Transportation/Divvy-Trips/fg6s-gzvg
