@@ -1,0 +1,253 @@
+divvy_df.columns
+
+Index(['Unnamed: 0', 'TRIP ID', 'BIKE ID', 'START DATE', 'START TIME',
+       'time difference', 'STOP DATE', 'STOP TIME', 'TRIP DURATION', 'Year',
+       'Month', 'Day', 'Hour', 'Day of Week', 'FROM STATION ID',
+       'TO STATION ID', 'USER TYPE', 'GENDER', 'BIRTH YEAR', 'AGE',
+       'Age Group'],
+      dtype='object')
+
+Out[24]: (3818004, 18) before preprocessing
+
+Out[72]: (1048562, 21) after preprocessing
+
+
+
+divvy_df['BIKE ID'].nunique()
+Out[71]: 5996
+
+
+Summary Trip Duration Statistics
+
+Max: 177200.3667
+Min: 1.016666667
+Mean: 20.082327320668018
+Median: 9.9
+Mode: 5.333333
+
+Name: time difference, dtype: float64
+
+
+
+Reduce dataset to only rides less than or equal to 100 minutes
+# of trips : 935658
+
+
+popular_bikes
+ 
+6412    427
+6019    413
+3457    410
+6445    409
+5164    404
+6453    399
+6311    399
+6235    398
+3494    396
+6256    392
+2877    392
+2418    390
+1557    389
+4597    386
+6348    386
+369     386
+1954    384
+5983    380
+3250    379
+3898    378
+Name: BIKE ID, dtype: int64
+
+
+
+Identify the most popular starting stations
+Reduce the results to any stations with trip greater than or equal to 10,000
+
+FROM STATION ID   total trips
+192        17838
+91         16423
+77         15968
+195        11685
+35         11254
+133        10832
+43         10383
+
+
+
+Popular Routes
+
+       from_station_id  to_station_id  rides_taken
+0                    2              2          163
+1                    2              3           84
+2                    2              4            7
+3                    2              5            1
+4                    2              6           23
+               ...            ...          ...
+78703              673            628            2
+78704              673            635            4
+78705              673            638            1
+78706              673            639            3
+78707              673            673           53
+
+
+
+
+Dataframe of start/end stations, sort, and identify 25 most popular routes
+
+    from_station_id  to_station_id  rides_taken
+0                76             35         2003
+1               192             43         1151
+2                43             91         1083
+3               195             91          979
+4               426            423          965
+5               174             43          941
+6               420            426          903
+7                 3             35          891
+8               423            322          835
+9                91             43          816
+10               18             43          773
+11              345            423          731
+12               77            283          685
+13              320            241          661
+14              322            423          661
+15               48            192          661
+16                6             35          628
+17               52             91          609
+18               35             90          608
+19               90             35          598
+20              283            174          592
+21              241            320          574
+22              344            325          573
+23              133            192          559
+24               59             72          553
+
+
+
+Usertype Percentage
+ 
+            Total Count  Percentage
+USER TYPE                          
+Subscriber       887709        85.0
+Customer         160853        15.0
+
+
+
+Use by Gender Percentage 
+
+        Total Count  Percentage
+GENDER                         
+Male         723056       68.96
+Female       217463       20.74
+
+
+
+Use by Age Group
+
+           Total Count  Percentage of Age
+Age Group                                
+10-20            15958           1.521894
+20-30           377269          35.979656
+30-40           301799          28.782180
+40-50           128882          12.291309
+50-60            90285           8.610364
+60-70            30023           2.863255
+70-80             1994           0.190165
+80-90               47           0.004482
+
+
+
+Amount of trips based on day of week
+ 
+Thursday     588287
+Tuesday      585680
+Wednesday    584022
+Friday       578107
+Monday       560269
+Saturday     495219
+Sunday       426420
+
+
+
+Percentage Day of Week Trip Calculation
+ 
+             Total Count  Percentage
+Day of Week                         
+Thursday          588287        15.0
+Tuesday           585680        15.0
+Wednesday         584022        15.0
+Friday            578107        15.0
+Monday            560269        15.0
+Saturday          495219        13.0
+Sunday            426420        11.0
+
+
+
+
+Percentage Hour of day Trip Calculation
+
+      Total Count  Percentage
+Hour                         
+17         475154        12.0
+16         375778        10.0
+18         315253         8.0
+8          305780         8.0
+15         243440         6.0
+7          237708         6.0
+19         208760         5.0
+13         207125         5.0
+14         206385         5.0
+12         206267         5.0
+11         179966         5.0
+9          163833         4.0
+10         145464         4.0
+20         134160         4.0
+6          108232         3.0
+21          96193         3.0
+22          69701         2.0
+23          42476         1.0
+5           35770         1.0
+0           24078         1.0
+1           14417         0.0
+2            8664         0.0
+4            7789         0.0
+3            5611         0.0
+
+
+
+Comparing Subscribers & Customers
+
+            Total Count  Percentage
+USER TYPE                          
+Subscriber       887709        85.0
+Customer         160853        15.0
+
+
+
+Breakdown of each gender for each usertype
+
+GENDER  USER TYPE 
+Female  Subscriber    196627
+        Customer       20836
+Male    Subscriber    683499
+        Customer       39557
+
+
+
+ 
+Age Group  USER TYPE 
+10-20      Subscriber     12270
+           Customer        3688
+20-30      Subscriber    342425
+           Customer       34844
+30-40      Subscriber    287671
+           Customer       14128
+40-50      Subscriber    123787
+           Customer        5095
+50-60      Subscriber     87457
+           Customer        2828
+60-70      Subscriber     29511
+           Customer         512
+70-80      Subscriber      1961
+           Customer          33
+80-90      Subscriber        40
+           Customer           7
+
